@@ -2,9 +2,19 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const chalk = require('chalk');
-// const webpackPublicPath = getPublicPath(env, bizAssetsPrefix);
+const webpackPublicPath = '';
+
+if (process.env.NODE_ENV === 'development') {
+    webpackPublicPath = '../../web/'
+}
+
+if (process.env.NODE_ENV === 'product') {
+    webpackPublicPath = '//globalworm.com/koa2/'
+}
 
 let buildConfig = {
     publicPath: {
@@ -33,16 +43,16 @@ let config = {
     // },
     // watch: isWatch,
     entry: {
-        index: './src/web/views/index.js',
+        // 'views/index': './src/web/views/index.js',
         // update: './src/web/views/update.html',
         // view: './src/web/views/view.html'
     }, // 动态添加入口
     output: {
-        path: __dirname + '/dist/web/views',
-        // filename: '[name].js'
-        filename: getMD5FileName('[name]', '[chunkhash:8]', 'js'),
-        // publicPath: webpackPublicPath,
-        // chunkFilename: `${pikBuildConfig.dist.assets}/chunks/${getMD5FileName('[name]', '[chunkhash:8]', 'js')}`
+        path: __dirname + '/dist/web/',
+        filename: '[name].js',
+        // filename: getMD5FileName('[name]', '[chunkhash:8]', 'js'),
+        publicPath: webpackPublicPath,
+        chunkFilename: `assets/chunks/${getMD5FileName('[name]', '[chunkhash:8]', 'js')}`
     },
     module: {
         rules: [
@@ -107,13 +117,24 @@ let config = {
     ]
 };
 
+const entry = {
+    entryName: 'views/index',
+    entryPath: './src/web/views/index.js'
+}
+config.entry[entry.entryName]= entry.entryPath;
+
+// config.plugins.push(new MiniCssExtractPlugin({
+//     filename: "[name].css",
+//     chunkFilename: "assets/styles/[id].css"
+// }));
+
 // const htmlArray = ['index', 'update', 'view'];
-const htmlArray = ['index'];
+const htmlArray = [entry.entryName];
 htmlArray.forEach((element) => {
   const chunksArray = [element];
   const newPlugin = new HtmlWebpackPlugin({
     filename: element + '.html',
-    template: './src/web/views/' + element + '.html',   // 获取最初的html模版
+    template: './src/web/' + element + '.html',   // 获取最初的html模版
     chunks: chunksArray
   });
   config.plugins.push(newPlugin);

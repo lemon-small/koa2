@@ -4,7 +4,6 @@ import '../assets/styles/index.css';
 import '../assets/scripts/utils.js';
 import '../components/x-tag/x-insert';
 import '../components/x-tag/x-books';
-import '../assets/scripts/jquery';
 
 
 $(function(){
