@@ -54,6 +54,14 @@ let config = {
         publicPath: webpackPublicPath,
         chunkFilename: `assets/chunks/${getMD5FileName('[name]', '[chunkhash:8]', 'js')}`
     },
+    externals: [
+        {
+            'custom-elements': 'Custom-elements',
+            core: 'Core',
+            jquery: 'jQuery',
+            axios: 'axios'
+        }
+    ],
     module: {
         rules: [
             {
@@ -96,7 +104,10 @@ let config = {
             {
                 test: /\.css$/,
                 exclude: /node_modules/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    // MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
             }, 
             {
                 test: /\.(png|jpe?g|gif|svg|woff|eot|ttf|pkg|exe)$/,
@@ -123,10 +134,13 @@ const entry = {
 }
 config.entry[entry.entryName]= entry.entryPath;
 
-// config.plugins.push(new MiniCssExtractPlugin({
-//     filename: "[name].css",
-//     chunkFilename: "assets/styles/[id].css"
-// }));
+
+// config.plugins.push(
+//     new MiniCssExtractPlugin({
+//         filename: getMD5FileName("[name]", "[hash:8]", "css"), //'[name].css?v=[hash]',
+//         chunkFilename: getMD5FileName("[id]", "[hash:8]", "css") //'[id].css?v=[hash]',
+//     })
+// );
 
 // const htmlArray = ['index', 'update', 'view'];
 const htmlArray = [entry.entryName];
