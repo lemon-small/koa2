@@ -8,7 +8,7 @@ import path from 'path';
 // };
 let config = {};
 
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == "dev") {
     config = {
         'ViewDir': path.join(__dirname, './', 'web', 'views'),
         'AssetsDir': path.join(__dirname, './', 'web', 'assets')
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV == "development") {
     config = lodash.extend(config, localconfig);
 }
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV == "prod") {
     config = {
         'ViewDir': path.join(__dirname, './', 'web', 'views'),
         'AssetsDir': path.join(__dirname, './', 'web', 'assets')

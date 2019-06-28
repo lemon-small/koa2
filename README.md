@@ -136,3 +136,16 @@ https://blog.csdn.net/beverley__/article/details/55213235
 # rollup
 https://www.cnblogs.com/tugenhua0707/p/8179686.html
 https://www.codercto.com/a/38213.html
+
+
+
+// 编译后dist目录划分
+
+dist
+    web
+        assets/
+        index.html
+        index.js
+        index.css
+
+           

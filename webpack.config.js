@@ -2,38 +2,50 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+
+// const argv0 = process.argv.slice(2);
+// console.log(argv0);
+// // 默认process.argv是数组
+const argv = require('yargs-parser')(process.argv.slice(2));
+console.log(argv);
+// yargs-parser直接将参数转成对象了，--变量为key值, 空格后的为value值
+// webpack --NODE_ENV development --modules module
+// { _: [], NODE_ENV: 'development', modules: 'module' }
 
 const chalk = require('chalk');
-const webpackPublicPath = '';
+let webpackPublicPath = '';
+let webpackEnvConfig = {};
+let webpackModuleConfig = {};
 
-if (process.env.NODE_ENV === 'development') {
-    webpackPublicPath = '../../web/'
+if (argv.NODE_ENV === 'dev') {
+    webpackEnvConfig = require(`./configs/webpack.${argv.NODE_ENV}.config`);
+    webpackPublicPath = '';
 }
 
-if (process.env.NODE_ENV === 'product') {
-    webpackPublicPath = '//globalworm.com/koa2/'
+if (argv.NODE_ENV === 'prod') {
+    webpackEnvConfig = require(`./configs/webpack.${argv.NODE_ENV}.config`);
+    webpackPublicPath = '//globalworm.com/koa2/';
 }
 
-let buildConfig = {
-    publicPath: {
-        dev: './dist',
-        stg: '',
-        prd: ''
-    },
-    dist: {
-        root: 'dist',
+webpackModuleConfig = require(`./configs/webpack.${ argv.modules == 'module' ? "module" : "nomodule"}.config`);
 
-        // _assets 文件夹
-        // 存放 webpack chunks、脱离 webpack 构建出来资源（如：lib.js）的路径
-        assets: 'web/_assets'
-    }
-}
 
+// 根据入参，是否编译成module配置
+// const webpackModuleConfig = argv[modules] === 'module' ? '' : '';
+
+// if (process.env.NODE_ENV === 'development') {
+//     webpackPublicPath = '../../web/'
+// }
+
+// if (process.env.NODE_ENV === 'product') {
+//     webpackPublicPath = '//globalworm.com/koa2/'
+// }
 
 let config = {
-    // mode: 'development', // 或从CLI命令行
+    mode: 'development', // 或从CLI命令行
     // resolve: {
     //     modules: [modulesPath,pikNodeModulesPath],
     //     alias: alias || {}
@@ -73,26 +85,26 @@ let config = {
             //     test: /\.js$/,
             //     loader: 'es3ify-loader'
             // }
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    babelrc: false,
-                    presets: [
-                        [
-                            "@babel/preset-env",
-                            {
-                                "modules": "systemjs"
-                            }
-                        ]
-                    ],
-                    plugins: [
-                        "@babel/plugin-transform-runtime",
-                        "@babel/plugin-transform-arrow-functions"
-                    ]
-                }
-            },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     loader: 'babel-loader',
+            //     options: {
+            //         babelrc: false,
+            //         presets: [
+            //             [
+            //                 "@babel/preset-env",
+            //                 {
+            //                     "modules": "systemjs"
+            //                 }
+            //             ]
+            //         ],
+            //         plugins: [
+            //             "@babel/plugin-transform-runtime",
+            //             "@babel/plugin-transform-arrow-functions"
+            //         ]
+            //     }
+            // },
             // {
             //     test: /\.js$/,
             //     loader: 'eslint-loader',
@@ -105,16 +117,17 @@ let config = {
                 test: /\.css$/,
                 exclude: /node_modules/,
                 use: [
-                    // MiniCssExtractPlugin.loader,
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             }, 
             {
-                test: /\.(png|jpe?g|gif|svg|woff|eot|ttf|pkg|exe)$/,
+                test: /\.(png|jpe?g|gif|svg|woff|eot|ttf|pkg|exe|woff2)$/,
                 exclude: /node_modules/,
                 loader: 'file-loader',
                 options: {
-                    outputPath: `./dist/style/files/`,
+                    outputPath: `./assets/files/`,
                     name: getMD5FileName('[path][name]', '[hash:8]', '[ext]')
                 }
             }
@@ -129,18 +142,18 @@ let config = {
 };
 
 const entry = {
-    entryName: 'views/index',
+    entryName: 'index',
     entryPath: './src/web/views/index.js'
 }
 config.entry[entry.entryName]= entry.entryPath;
 
 
-// config.plugins.push(
-//     new MiniCssExtractPlugin({
-//         filename: getMD5FileName("[name]", "[hash:8]", "css"), //'[name].css?v=[hash]',
-//         chunkFilename: getMD5FileName("[id]", "[hash:8]", "css") //'[id].css?v=[hash]',
-//     })
-// );
+config.plugins.push(
+    new MiniCssExtractPlugin({
+        filename: getMD5FileName("[name]", "[hash:8]", "css"), //'[name].css?v=[hash]',
+        chunkFilename: getMD5FileName("[id]", "[hash:8]", "css") //'[id].css?v=[hash]',
+    })
+);
 
 // const htmlArray = ['index', 'update', 'view'];
 const htmlArray = [entry.entryName];
@@ -148,7 +161,7 @@ htmlArray.forEach((element) => {
   const chunksArray = [element];
   const newPlugin = new HtmlWebpackPlugin({
     filename: element + '.html',
-    template: './src/web/' + element + '.html',   // 获取最初的html模版
+    template: './src/web/views/' + element + '.html',   // 获取最初的html模版
     chunks: chunksArray
   });
   config.plugins.push(newPlugin);
@@ -158,5 +171,9 @@ function getMD5FileName(srcName, md5, extName) {
     // return pikBuildConfig.md5fyAssetsName ? `${srcName}.${md5}.${extName}` : `${srcName}.${extName}?v=${md5}`;
     return  `${srcName}.${md5}.${extName}`;
 }
+// webpackEnvConfig
+// webpack-merge 对象key值覆盖，数组值追加
+// console.log('merge', merge({age: 2, list: [{age: 1}, 7, 2]}, {age: 23, name: 232, list: [{age: 5}, 10, 5]}));
 
-module.exports = config;
+
+module.exports = merge(config, webpackEnvConfig, webpackModuleConfig);

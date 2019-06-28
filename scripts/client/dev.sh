@@ -1,0 +1,1 @@
+webpack --NODE_ENV dev --modules module
