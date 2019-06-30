@@ -30,6 +30,8 @@ if (argv.NODE_ENV === 'prod') {
     webpackPublicPath = '//globalworm.com/koa2/';
 }
 
+const _module = argv.modules;
+
 webpackModuleConfig = require(`./configs/webpack.${ argv.modules == 'module' ? "module" : "nomodule"}.config`);
 
 
@@ -45,7 +47,7 @@ webpackModuleConfig = require(`./configs/webpack.${ argv.modules == 'module' ? "
 // }
 
 let config = {
-    mode: 'development', // 或从CLI命令行
+    mode: 'dev', // 或从CLI命令行
     // resolve: {
     //     modules: [modulesPath,pikNodeModulesPath],
     //     alias: alias || {}
@@ -161,7 +163,8 @@ htmlArray.forEach((element) => {
   const chunksArray = [element];
   const newPlugin = new HtmlWebpackPlugin({
     filename: element + '.html',
-    template: './src/web/views/' + element + '.html',   // 获取最初的html模版
+    // template: './src/web/views/' + element + '.html',   // 获取最初的html模版
+    template: _module == "module" ? './src/web/views/' + element + '.html' : './dist/web/' + element + '.html', // 第一次module, 再nomodule找的是dist,最后html有2份
     chunks: chunksArray
   });
   config.plugins.push(newPlugin);

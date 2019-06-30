@@ -1,4 +1,27 @@
 const pluginName = 'htmlPluginModule';
+
+// hackCode代码这段其实意思是专门处理支持module不支持nomodule的浏览器，将html中的script标签遍历一遍，有两个script, 支持module的留下，不支持的直接return掉
+// 现在已经支持很好了，这个是前几年的兼容
+const hackCode = `(function () {
+    // 这段代码可以直接加到html顶部
+    var check = document.createElement('script');
+    if (!('noModule' in check) && 'onbeforeload' in check) {
+        var support = false;
+        document.addEventListener('beforeload', function (e) {
+            if (e.target === check) {
+                support = true
+            } else if (!e.target.hasAttribute('nomodule') || !support) {
+                return;
+            }
+            e.preventDefault();
+        }, true);
+        // 下面这里异步先执行
+        check.type = 'module';
+        check.src = '.';
+        document.head.appendChild(check);
+        check.remove();
+    }
+}())`;
 class HtmlPluginModule {
     constructor ({ isHack } = options) {
         this.isHack = isHack;
@@ -12,13 +35,25 @@ class HtmlPluginModule {
             // <script type="module" src="abc.js"></script>
             // 第一个script, nomodule不支持的浏览器都会加载src, type形式则不会加载，唯一存在问题：增加支持module，不支持nomodule的浏览器，会加载两次，需要做兼容处理    
             
-            // compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing
-
+            // tap同步，tapAsync异步
+            compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tap(pluginName, (htmlPluginData, cb) => {
+                htmlPluginData.html = htmlPluginData.html.replace(/\snomodule=""/g, " nomodule");
+            });
             compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(pluginName, (htmlPluginData, cb) => {
+                // safari nomodule兼容插件
+                // 阻止了nomodule加载
+                // if (this.isHack) { // 暴露参数给外面控制，true时，提供module和nomodule浏览器兼容处理
+                //     htmlPluginData.body.push({
+                //         tagName: "script",
+                //         closeTag: true,
+                //         innerHTML: hackCode
+                //     });
+                // }
+
                 // / htmlWebpackPluginAlterAssetTags 把钩子写在这
                 htmlPluginData.body.forEach(tag => {
                     if (tag.tagName == "script"){
-                        if (/-bundle./.test(tag.attributes.src)) {
+                        if (/-bundle\./.test(tag.attributes.src)) {
                             delete tag.attributes.type;
                             tag.attributes.nomodule = "";
                         } else {
