@@ -158,6 +158,13 @@ npm run server:prodes5
 cp  ./package.json ./dist
 
 
+构建默认es5项目：
+npm install
+npm run client:prodefault
+npm run server:prod
+cp  ./package.json ./dist
+
+
 jenkins for online:
 // 备份远端文件
 
@@ -169,3 +176,6 @@ scp -r ./dist lemon-baidu:/home/koa2/
 
 // 启动服务, 线上pm2 start
 nodemon local_app.js
+--------------------------------------------
+
+需要预先在linux服务器安装好使用包环境，然后再在jenkins中使用
