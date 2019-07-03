@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 import path from 'path';
 
-
 // let config = {
 //     'ViewDir': path.join(__dirname, '../..', 'web', 'views'),
 //     'AssetsDir': path.join(__dirname, '../..', 'web', 'assets')
@@ -10,8 +9,8 @@ let config = {};
 
 if (process.env.NODE_ENV == "dev") {
     config = {
-        'ViewDir': path.join(__dirname, './', 'web', 'views'),
-        'AssetsDir': path.join(__dirname, './', 'web', 'assets')
+        'ViewDir': path.join(__dirname, 'web'),
+        'AssetsDir': path.join(__dirname, 'web')
     }
     const localconfig = {
         port: 8081
@@ -21,13 +20,14 @@ if (process.env.NODE_ENV == "dev") {
 
 if (process.env.NODE_ENV == "prod") {
     config = {
-        'ViewDir': path.join(__dirname, './', 'web', 'views'),
-        'AssetsDir': path.join(__dirname, './', 'web', 'assets')
+        'ViewDir': path.join(__dirname, 'web'),
+        'AssetsDir': path.join(__dirname, 'web')
     };
     const prodConfig = {
-        port: 80
+        port: 8089
     }
     config = lodash.extend(config, prodConfig);
+    console.log('kokoko----------', config);
 }
 
 export default config;

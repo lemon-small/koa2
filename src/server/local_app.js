@@ -21,8 +21,6 @@ import config from './configs/index'; // 工具类，一些参数配置
 import errorHandler from './middlewares/errorHandler';
 
 
-
-
 // log4js配置日志
 configure({
     appenders: {cheese: {type: 'file', filename: join(_root, 'logs/error.log')}},
@@ -33,7 +31,7 @@ const logger = getLogger('cheese');
 // koa挂载错误处理，并加入log4js做日志打印
 errorHandler.error(app, logger);
 
-console.log('process env:', process.env);
+// console.log('process env:', process.env);
 console.log('env:', process.env.NODE_ENV);
 console.log(9999);
 console.log('hi', config);

@@ -1,4 +1,4 @@
-const pluginName = 'htmlPluginModule';
+const pluginName = 'htmlPluginNoModule';
 const hackCode = `(function () {
     // 这段代码可以直接加到html顶部
     var check = document.createElement('script');
@@ -23,7 +23,7 @@ const assetsHelp = (data) => {
     let js = [];
     let css = [];
     const dir = {
-        js: item => `<script type="module" src="${item}"></script>`,
+        js: item => `<script nomodule src="${item}"></script>`,
         css: item => `<link rel="stylesheet" href="${item}" />`,
     };
     for (let jsitem of data.js) {
@@ -37,7 +37,7 @@ const assetsHelp = (data) => {
         css
     }
 };
-class HtmlPluginModule {
+class HtmlPluginNoModule {
     constructor ({ isHack } = options) {
         this.isHack = isHack;
     }
@@ -84,6 +84,7 @@ class HtmlPluginModule {
                 //         innerHTML: hackCode
                 //     });
                 // }
+
                 // htmlWebpackPluginAlterAssetTags 把钩子写在这
                 htmlPluginData.body.forEach(tag => {
                     if (tag.tagName == "script"){
@@ -96,6 +97,7 @@ class HtmlPluginModule {
                         }
                     }
                 });
+
                 cb(null, htmlPluginData);
             });
 
@@ -112,7 +114,7 @@ class HtmlPluginModule {
                 _html = _html.replace(/@internal/g, '.');
                 let result = assetsHelp(htmlPluginData.assets);
                 console.log('zzzzzzz-----', result);
-                _html = _html.replace("<!--injectjs-->", result.js.join(""));
+                _html = _html.replace("<!--injectjses5-->", result.js.join(""));
                 _html = _html.replace("<!--injectcss-->", result.css.join(""));
                 htmlPluginData.html = _html;
             });
@@ -123,4 +125,4 @@ class HtmlPluginModule {
         });
     }
 }
-module.exports = HtmlPluginModule;
+module.exports = HtmlPluginNoModule;

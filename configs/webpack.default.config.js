@@ -1,6 +1,5 @@
 // nomodule非模块处理，需要编译为es5
-const HtmlNoModulePlugin = require('../plugins/html-nomodule-plugin');
-let isHackObj = {isHack: true}; // 是否开启支持加入插件兼容一些支持module但不支持nomodule的浏览器
+const HtmlEs5InjectPlugin = require('../plugins/html-es5-inject-plugin');
 
 const config = {
     output: {
@@ -31,7 +30,7 @@ const config = {
         ]
     },
     plugins: [
-        new HtmlNoModulePlugin(isHackObj)
+        new HtmlEs5InjectPlugin()
     ]
 };
 

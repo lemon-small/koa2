@@ -1,5 +1,5 @@
 const config = {
-    mode: 'prod', // 或从CLI命令行
+    mode: 'production', // 或从CLI命令行
 };
 
 module.exports = config;

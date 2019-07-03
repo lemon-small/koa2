@@ -148,4 +148,24 @@ dist
         index.js
         index.css
 
-           
+----------------------------------------------
+jenkins for git:
+webhooks触发构建
+npm run client:prod
+npm run client:prodes5
+npm run server:prod
+npm run server:prodes5
+cp  ./package.json ./dist
+
+
+jenkins for online:
+// 备份远端文件
+
+// 上传文件覆盖
+scp -r ./dist lemon-baidu:/home/koa2/
+
+// 安装为gulp编译server使用的包,package.json
+// cd /dist && cnpm install
+
+// 启动服务, 线上pm2 start
+nodemon local_app.js
