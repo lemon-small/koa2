@@ -37,11 +37,12 @@ class HtmlPluginEs5InjectModule {
             compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tap(pluginName, (htmlPluginData, cb) => {
                 console.log('plugin--->>>>>>>>>>>>>>>>>>>>>>', 3);
                 // console.log(htmlPluginData); // { html: '{% extends \'default.html\' %}\n
-                htmlPluginData.html = htmlPluginData.html.replace(/\snomodule=""/g, " nomodule");
+                // htmlPluginData.html = htmlPluginData.html.replace(/\snomodule=""/g, " nomodule");
             });
             
             compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(pluginName, (htmlPluginData, cb) => {
                 console.log('plugin--->>>>>>>>>>>>>>>>>>>>>>', 4);
+                cb(null, htmlPluginData);
             });
 
             compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tap(pluginName, (htmlPluginData, cb) => {
