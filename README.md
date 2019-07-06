@@ -150,7 +150,9 @@ dist
 
 ----------------------------------------------
 jenkins for git:
-webhooks触发构建
+jenkins所属环境安装nvm,或者linux下装cnpm
+webhooks触发构建: 设置jenkins git hooks, git设置push post关联jenkins
+首次安装node_modules: npm install
 npm run client:prod
 npm run client:prodes5
 npm run server:prod
@@ -166,16 +168,17 @@ cp  ./package.json ./dist
 
 
 jenkins for online:
-// 备份远端文件
+// 备份远端生产文件
 
 // 上传文件覆盖
-scp -r ./dist lemon-baidu:/home/koa2/
+scp -r ./dist/ lemon-baidu:/home/koa2/
 
-// 安装为gulp编译server使用的包,package.json
+// 登录线上服务器，安装package.json，为gulp编译server可以使用包
+// ssh lemon-baidu
 // cd /dist && cnpm install
 
-// 启动服务, 线上pm2 start
-nodemon local_app.js
+// 启动服务, 线上pm2 start等
+// nodemon local_app.js
 --------------------------------------------
 
 需要预先在linux服务器安装好使用包环境，然后再在jenkins中使用
