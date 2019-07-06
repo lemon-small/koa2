@@ -149,8 +149,9 @@ dist
         index.css
 
 ----------------------------------------------
-jenkins for git:
-jenkins所属环境安装nvm,或者linux下装cnpm
+jenkins:
+// jenkins可以执行项目下面.sh文件，作为统一执行`sh build.sh`，就不要一条条写到jenkins中了；
+jenkins所属环境安装nvm 或者 linux下装cnpm
 webhooks触发构建: 设置jenkins git hooks, git设置push post关联jenkins
 首次安装node_modules: npm install
 npm run client:prod
