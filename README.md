@@ -151,7 +151,7 @@ dist
 ----------------------------------------------
 jenkins:
 // jenkins可以执行项目下面.sh文件，作为统一执行`sh build.sh`，就不要一条条写到jenkins中了；
-webhooks触发构建: 设置jenkins git hooks, git设置push post关联jenkins
+webhooks自动触发构建: 开启jenkins githooks轮询, 复制jenkins webhook链接给到git代码仓库webhook配置下, 设置push触发，然后本地提交代码后即触发jenkins自动；
 https://blog.csdn.net/qq_21768483/article/details/80177920
 
 jenkins所属环境安装nvm 或者 linux下装cnpm
