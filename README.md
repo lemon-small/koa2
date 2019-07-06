@@ -151,8 +151,10 @@ dist
 ----------------------------------------------
 jenkins:
 // jenkins可以执行项目下面.sh文件，作为统一执行`sh build.sh`，就不要一条条写到jenkins中了；
-jenkins所属环境安装nvm 或者 linux下装cnpm
 webhooks触发构建: 设置jenkins git hooks, git设置push post关联jenkins
+https://blog.csdn.net/qq_21768483/article/details/80177920
+
+jenkins所属环境安装nvm 或者 linux下装cnpm
 首次安装node_modules: npm install
 npm run client:prod
 npm run client:prodes5
