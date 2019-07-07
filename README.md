@@ -201,8 +201,11 @@ pm2 start local_app.js // 如果是nodemon等工具启动服务，它会一直�
 
 // 线上进程启动管理pm2, 全局安装，可以监控进程状态，停机重载
 https://www.cnblogs.com/zhoujie/p/nodejs4.html
-
 // nodmeon仅用于用于开发，经常存在进程停止，端口还占用的情况nodemon ./local_app.js
+
+注：启动local_app.js服务，将开启一个端口访问该项目，如果local_app中挂载了view和静态资源，注意/将直接访问定位被挂载的资源目录下，注意页面中的相对访问路径资源是否与页面所在资源保持一致，并且webpack打包后的资源与publicPath的最终路径要能访问到且也是根据事先静态资源的serve挂载；否则访问不到
+
+注：jenkins只能系统配置一个服务器的Publish over SSH key值，即一台远端推送
 
 --------------------------------------------
 
