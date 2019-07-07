@@ -209,6 +209,7 @@ https://www.cnblogs.com/zhoujie/p/nodejs4.html
 jenkins只能系统配置一个服务器的Publish over SSH key值，即一台服务器远端推送，需要使用则重新将jenkins的私钥放入输入框
 jenkins只能系统配置一个项目的githooks
 jenkins无法关闭任务
+jenkins与线上服务器位于同一服务器，访问也要公私钥放好，公钥一样放到authorized_keys下面
 
 --------------------------------------------
 
