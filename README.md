@@ -151,6 +151,7 @@ dist
 ----------------------------------------------
 jenkins:
 // jenkins可以执行项目下面.sh文件，作为统一执行`sh build.sh`，就不要一条条写到jenkins中了；
+
 webhooks自动触发构建: 开启jenkins githooks轮询, 复制jenkins webhook链接给到git代码仓库webhook配置下, 设置push触发，然后本地提交代码后即触发jenkins自动；
 https://blog.csdn.net/qq_21768483/article/details/80177920
 
@@ -189,23 +190,25 @@ cd /home/lemon/
 // 备份远端生产文件
 rm -rf  ./protemp/*
 cp -r ./koa2 ./protemp/
-
 // 上传文件覆盖
 cp ./temp/dist/*  ./koa2/
-
-
 // 进入目录，安装package.json，启动项目
 cd koa2
 cnpm install
 pm2 start local_app.js // 如果是nodemon等工具启动服务，它会一直监听，不给jenkins返回成功信息，让jenkins一直等待信息的问题，而pm2成功立马就退出后台执行返回成功信息给了jenkins
 
+**PM2**
 // 线上进程启动管理pm2, 全局安装，可以监控进程状态，停机重载
-https://www.cnblogs.com/zhoujie/p/nodejs4.html
 // nodmeon仅用于用于开发，经常存在进程停止，端口还占用的情况nodemon ./local_app.js
+https://www.cnblogs.com/zhoujie/p/nodejs4.html
+
 
 注：启动local_app.js服务，将开启一个端口访问该项目，如果local_app中挂载了view和静态资源，注意/将直接访问定位被挂载的资源目录下，注意页面中的相对访问路径资源是否与页面所在资源保持一致，并且webpack打包后的资源与publicPath的最终路径要能访问到且也是根据事先静态资源的serve挂载；否则访问不到
 
-注：jenkins只能系统配置一个服务器的Publish over SSH key值，即一台远端推送
+注：
+jenkins只能系统配置一个服务器的Publish over SSH key值，即一台服务器远端推送，需要使用则重新将jenkins的私钥放入输入框
+jenkins只能系统配置一个项目的githooks
+jenkins无法关闭任务
 
 --------------------------------------------
 
