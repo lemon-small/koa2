@@ -34,7 +34,7 @@ if (argv.NODE_ENV === 'dev') {
 if (argv.NODE_ENV === 'prod') {
     webpackEnvConfig = require(`./configs/webpack.${argv.NODE_ENV}.config`);
     // webpackPublicPath = '//b.globalworm.com/koa2/web/';
-    webpackPublicPath = '//www.globalworm.com:8082/web/';
+    webpackPublicPath = '//www.globalworm.com:8082/';
 }
 
 if (!isModule) { // 是否采用默认还是module(module，module兼容nomodule)配置
@@ -73,7 +73,7 @@ let config = {
         path: __dirname + '/dist/web/', // 所有本地资源相对这个目录写路径
         filename: '[name].js',
         // filename: getMD5FileName('[name]', '[chunkhash:8]', 'js'),
-        publicPath: webpackPublicPath, // 打包后的路径，原有资源访问本地path会相对于publicPath去写，为了访问正常，除了根目录与本地不一致，其他目录应相同
+        publicPath: webpackPublicPath, // 打包后的路径，原有资源访问本地path会相对于publicPath去写,publicPath要保持一致，同时要考虑是否有设置静态资源访问路径的情况，如serve(staticAssets)
         chunkFilename: `assets/chunks/${getMD5FileName('[name]', '[chunkhash:8]', 'js')}`
     },
     externals: [
