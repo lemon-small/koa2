@@ -154,6 +154,12 @@ jenkins:
 webhooks自动触发构建: 开启jenkins githooks轮询, 复制jenkins webhook链接给到git代码仓库webhook配置下, 设置push触发，然后本地提交代码后即触发jenkins自动；
 https://blog.csdn.net/qq_21768483/article/details/80177920
 
+系统配置jenkins与生产服务器的ssh，实现jenkins服务器生成，私钥放key输入框，公钥拷贝上传至生产服务器
+https://blog.51cto.com/xiong51/2091739
+
+jenkins任务下的配置，选中配好的服务器名，指定当前任务的相对目录文件，写好目标服务器的操作目录，以及command命令
+https://www.jianshu.com/p/0d805ed204e6
+
 jenkins所属环境安装nvm 或者 linux下装cnpm
 首次安装node_modules: npm install
 npm run client:prod
@@ -171,17 +177,27 @@ cp  ./package.json ./dist
 
 
 jenkins for online:
+// 文件上传临时目录
+jenkins source files to online server  directory: jenkins source files将打包好的文件上传到系统配置的远程目录下
+**// 注意：Source files， 写dist找不到，dist/*可以**
+Remove prefix，为去除Source files的目录前缀上传
+Remote directory：基于系统配置的目录，相对路径，如果为空，即source files上传为system config下ssh配置目录，
+
+cd /home/lemon/
 // 备份远端生产文件
+rm -rf  ./protemp/*
+cp -r ./koa2 ./protemp/
 
 // 上传文件覆盖
-scp -r ./dist/ lemon-baidu:/home/koa2/
+cp ./temp/dist/*  ./koa2/
 
-// 登录线上服务器，安装package.json，为gulp编译server可以使用包
-// ssh lemon-baidu
-// cd /dist && cnpm install
 
-// 启动服务, 线上pm2 start等
-// nodemon local_app.js
+// 进入目录，安装package.json，启动项目
+cd koa2
+cnpm install
+nodemon ./local_app.js
+
+// 或启动服务, 线上pm2 start等
 --------------------------------------------
 
 需要预先在linux服务器安装好使用包环境，然后再在jenkins中使用

@@ -33,7 +33,7 @@ if (argv.NODE_ENV === 'dev') {
 
 if (argv.NODE_ENV === 'prod') {
     webpackEnvConfig = require(`./configs/webpack.${argv.NODE_ENV}.config`);
-    // webpackPublicPath = '//globalworm.com/koa2/';
+    // webpackPublicPath = '//b.globalworm.com/koa2/';
     webpackPublicPath = '//globalworm.com/koa2/';
 }
 
