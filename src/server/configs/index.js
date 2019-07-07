@@ -21,7 +21,7 @@ if (process.env.NODE_ENV == "dev") {
 if (process.env.NODE_ENV == "prod") {
     config = {
         'ViewDir': path.join(__dirname, 'web'),
-        'AssetsDir': path.join(__dirname, './')
+        'AssetsDir': path.join(__dirname, 'web')
     };
     const prodConfig = {
         port: 8082
