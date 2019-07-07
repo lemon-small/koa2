@@ -195,9 +195,13 @@ cp ./temp/dist/*  ./koa2/
 // 进入目录，安装package.json，启动项目
 cd koa2
 cnpm install
-nodemon ./local_app.js
+pm2 start local_app.js
 
-// 或启动服务, 线上pm2 start等
+// 线上进程启动管理pm2, 全局安装，可以监控进程状态，停机重载
+https://www.cnblogs.com/zhoujie/p/nodejs4.html
+
+// nodmeon仅用于用于开发，经常存在进程停止，端口还占用的情况nodemon ./local_app.js
+
 --------------------------------------------
 
 需要预先在linux服务器安装好使用包环境，然后再在jenkins中使用

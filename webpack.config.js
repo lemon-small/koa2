@@ -33,8 +33,8 @@ if (argv.NODE_ENV === 'dev') {
 
 if (argv.NODE_ENV === 'prod') {
     webpackEnvConfig = require(`./configs/webpack.${argv.NODE_ENV}.config`);
-    // webpackPublicPath = '//b.globalworm.com/koa2/';
-    webpackPublicPath = '//globalworm.com/koa2/';
+    webpackPublicPath = '//b.globalworm.com/koa2/';
+    // webpackPublicPath = '//globalworm.com/koa2/';
 }
 
 if (!isModule) { // 是否采用默认还是module(module，module兼容nomodule)配置

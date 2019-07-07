@@ -24,7 +24,7 @@ if (process.env.NODE_ENV == "prod") {
         'AssetsDir': path.join(__dirname, 'web')
     };
     const prodConfig = {
-        port: 8089
+        port: 80
     }
     config = lodash.extend(config, prodConfig);
     console.log('kokoko----------', config);
