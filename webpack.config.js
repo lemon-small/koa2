@@ -33,8 +33,8 @@ if (argv.NODE_ENV === 'dev') {
 
 if (argv.NODE_ENV === 'prod') {
     webpackEnvConfig = require(`./configs/webpack.${argv.NODE_ENV}.config`);
-    webpackPublicPath = '//b.globalworm.com/koa2/';
-    // webpackPublicPath = '//globalworm.com/koa2/';
+    webpackPublicPath = '//b.globalworm.com/koa2/web/';
+    // webpackPublicPath = '//globalworm.com/koa2/web/';
 }
 
 if (!isModule) { // 是否采用默认还是module(module，module兼容nomodule)配置
@@ -70,10 +70,10 @@ let config = {
         // view: './src/web/views/view.html'
     }, // 动态添加入口
     output: {
-        path: __dirname + '/dist/web/',
+        path: __dirname + '/dist/web/', // 所有本地资源相对这个目录写路径
         filename: '[name].js',
         // filename: getMD5FileName('[name]', '[chunkhash:8]', 'js'),
-        publicPath: webpackPublicPath,
+        publicPath: webpackPublicPath, // 打包后的路径，原有资源访问本地path会相对于publicPath去写，为了访问正常，除了根目录与本地不一致，其他目录应相同
         chunkFilename: `assets/chunks/${getMD5FileName('[name]', '[chunkhash:8]', 'js')}`
     },
     externals: [
