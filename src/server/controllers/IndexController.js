@@ -16,13 +16,44 @@ class IndexController {
             // });
             
             // console.log(ctxy); // 这里报错会进入errorHandler的catch中被log记录
-            const request = new Request("book/index");
-            const reqData = {};
-            const bookData = await request.fetch(reqData);
-            console.log(bookData);
+
+            // 生产屏蔽以下4句，模拟mock数据
+            // const request = new Request("book/index");
+            // const reqData = {};
+            // const bookData = await request.fetch(reqData);
+            // console.log(bookData);
             ctx.body = await ctx.render('index.html', {
-                list: bookData,
+                // list: bookData,
                 // list: [{bood_id: 1, book_name: 'asd'}],
+                list: [
+                    {
+                        "book_id": "111",
+                        "book_name": "aasssss",
+                        "author": "aa",
+                        "publisher": "aaa",
+                        "publish_date": "2000-11-12",
+                        "price": "11.00",
+                        "sum": "1"
+                    },
+                    {
+                        "book_id": "1233",
+                        "book_name": "三国演义",
+                        "author": "罗贯中",
+                        "publisher": "中国人民出版社",
+                        "publish_date": "1980-01-03",
+                        "price": "100.00",
+                        "sum": "12"
+                    },
+                    {
+                        "book_id": "124",
+                        "book_name": "西游记",
+                        "author": "吴承恩",
+                        "publisher": "清华大学出版社",
+                        "publish_date": "1970-06-12",
+                        "price": "123.00",
+                        "sum": "2"
+                    }
+                ],
                 title: 'my Books'
             });
         // }

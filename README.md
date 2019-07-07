@@ -179,10 +179,12 @@ cp  ./package.json ./dist
 jenkins for online:
 // 文件上传临时目录
 jenkins source files to online server  directory: jenkins source files将打包好的文件上传到系统配置的远程目录下
-**// 注意：Source files， 写dist找不到，dist/*可以**
+**// 注意：Source files， 写dist找不到，dist/**可以, dist/*只是将文件拷贝过去，两个*才能将dist下所有文件拷贝过去. **
 Remove prefix，为去除Source files的目录前缀上传
 Remote directory：基于系统配置的目录，相对路径，如果为空，即source files上传为system config下ssh配置目录，
 
+cd /home/lemon/koa2/
+pm2 stop local_app.js // 先停掉服务，再操作
 cd /home/lemon/
 // 备份远端生产文件
 rm -rf  ./protemp/*
@@ -195,7 +197,7 @@ cp ./temp/dist/*  ./koa2/
 // 进入目录，安装package.json，启动项目
 cd koa2
 cnpm install
-pm2 start local_app.js
+pm2 start local_app.js // 如果是nodemon等工具启动服务，它会一直监听，不给jenkins返回成功信息，让jenkins一直等待信息的问题，而pm2成功立马就退出后台执行返回成功信息给了jenkins
 
 // 线上进程启动管理pm2, 全局安装，可以监控进程状态，停机重载
 https://www.cnblogs.com/zhoujie/p/nodejs4.html
